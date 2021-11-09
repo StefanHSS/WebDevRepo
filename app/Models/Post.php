@@ -19,6 +19,11 @@ class Post extends Model
         return $this->belongsTo('App\Models\User');
     }
 
+    public function comments()
+    {
+        return $this->morphMany('App\Models\Comment', 'commentable')->whereNull('parent_id');
+    }
+
     public function getPostImageAttribute($image)
     {
 
@@ -28,10 +33,5 @@ class Post extends Model
         }
 
         return asset('storage/' . $image);
-    }
-
-    public function comments()
-    {
-        return $this->morphMany('App\Models\Comment', 'commentable')->whereNull('parent_id');
     }
 }

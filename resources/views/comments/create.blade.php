@@ -2,7 +2,7 @@
 <div class="card my-4">
     <h5 class="card-header">Leave a Comment:</h5>
     <div class="card-body">
-    <form method="POST" action="{{route('comments.create')}}" enctype="multipart/form-data">
+    <form>
         @csrf
 
         <div class="form-group">
@@ -22,28 +22,25 @@
 
         $('#ajax_button').click(function(e) {
             e.preventDefault();
-            // console.log("Hellooo!!!");
+
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content');
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            var $postData = {};
+            $postData.content = $("#content").val();
+            $postData.post = $("#post_id").val();
 
             $.ajax({
 
                 url: "{{route('comments.create')}}",
-                type: "POST",
-                data: {
-                        content: $("#content").val(),
-                        post: $(this).data('post_id')
-                      },
-                beforeSend:function(){
-                $(this).html('Saving...').addClass('disabled');
-                },
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                data: $postData,
                 success: function(result) {
-                    $(this).html('Save').removeClass('disabled');
-                    jQuery('.alert').show();
-                    jQuery('.alert').html(result.success);
+                    console.log(result);
                 }
             });
         });
