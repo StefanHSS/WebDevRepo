@@ -33,9 +33,14 @@ class PostController extends Controller
         return redirect()->back();
     }
 
+    // public function fetchComments(Post $post)
+    // {
+    //     $comments = $post->comments()->orderBy('created_at', 'desc')->get();
+    //     return response()->json(['comments' => $comments]);
+    // }
+
     public function show(Post $post)
     {
-        // $comments = $post->comments;
         $comments = $post->comments()->orderBy('created_at', 'desc')->get();
         return view('posts.index', compact('post', 'comments'));
     }
