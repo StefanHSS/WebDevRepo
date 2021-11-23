@@ -74,13 +74,34 @@
                     <h5 class="mt-0">{{$comment->user->firstName . " " . $comment->user->lastName}}</h5>
                         {{$comment->content}}
                         <hr>
+                        <a href="" class="mx-3" data-toggle="modal" data-target="#exampleModal">Reply</a>
                         <a href="">Edit</a>
                         <a href="" class="mx-3">Delete</a>
                     </div>
                 </div>
+
+                <!-- Comment replies needs finishing as currently is not working.
+                        For each comment, we want to append its respective reply/ies-->
+                @if ($comment->replies->count() != 0)
+                    @foreach ($comment->replies as $reply)
+                    <div class="media mt-4">
+                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt=""/>
+                        <div class="media-body">
+                        <h5 class="mt-0">{{$reply->user->firstName . " " . $reply->user->lastName}}</h5>
+                            {{$reply->content}}
+                            <hr>
+                            <a href="" class="mx-3" data-toggle="modal" data-target="#exampleModal">Reply</a>
+                            <a href="">Edit</a>
+                            <a href="" class="mx-3">Delete</a>
+                        </div>
+                    </div>
+                    @endforeach
+                @endif
+
         @endforeach
     </div>
 
+    @include('posts.postModals.reply')
       <!-- Comment with nested comments -->
       <div class="media mb-4">
         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">

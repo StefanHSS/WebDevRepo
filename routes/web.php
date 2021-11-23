@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/post/{post}/comments', 'App\Http\Controllers\PostController@fetchComments')->name('posts.comments');
 
     Route::post('/comment/create', 'App\Http\Controllers\CommentController@store')->name('comments.create');
+    Route::post('/comment/reply', 'App\Http\Controllers\CommentController@replyStore')->name('comments.replies');
 
 });
 

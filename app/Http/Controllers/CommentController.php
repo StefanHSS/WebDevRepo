@@ -31,4 +31,26 @@ class CommentController extends Controller
 
         return response()->json(['result' => $validator->errors()]);
     }
+
+    public function replyStore()
+    {
+
+        $validator = Validator::make(request()->all(), [
+            'content' => 'required|max:250',
+        ]);
+
+        if(!$validator->fails())
+        {
+            $reply = new Comment();
+            $reply->content = request('content');
+            $reply->user()->associate(request()->user());
+            $reply->parent_id = request('comment_id');
+
+            $post = Post::where('id', request('post_id'))->firstOrFail();
+            $post->comments()->save($reply);
+
+            return $reply;
+        }
+        return response()->json(['result' => $validator->errors()]);
+    }
 }
