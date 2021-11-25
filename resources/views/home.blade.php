@@ -21,7 +21,22 @@
             <p class="card-text">
                 {{Str::limit($post->body, 10)}}
             </p>
-            <a href="{{route('posts.show', $post->id)}}" class="btn btn-primary" role="button">Read more</a>
+            {{-- <a href="{{route('posts.show', $post->id)}}" class="btn btn-primary" role="button">Read more</a> --}}
+            <div class="buttonContainer">
+                <form action="{{route('posts.show', $post)}}" class="d-inline-block">
+                    <button type="submit" class="btn btn-primary">Read more</button>
+                </form>
+
+                <form action="{{route('posts.delete', $post->id)}}" method="POST" class="d-inline-block float-right">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        <span class="fa fa-trash"></span>
+                        Delete post
+                    </button>
+                </form>
+            </div>
+
           </div>
           <div class="card-footer text-muted">
             {{'Posted ' . $post->created_at->diffForHumans() . ' by '}}

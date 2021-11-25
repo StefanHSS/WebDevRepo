@@ -35,7 +35,22 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        $comments = $post->comments()->orderBy('created_at', 'desc')->get();
-        return view('posts.index', compact('post', 'comments'));
+        if($post->comments())
+        {
+            $comments = $post->comments()->orderBy('created_at', 'desc')->get();
+            return view('posts.index', compact('post', 'comments'));
+        }
+        return view('posts.index', compact('post'));
+    }
+
+    public function destroy(Post $post)
+    {
+        //Because relationship is polymorphic, SQL does not understand Laravel Polymorphism
+        // so when deleting a polymorphic object, one must be explicit as to delete the respective
+        //children of the relationship 1st !!!
+        $post->comments()->delete();
+        $post->delete();
+
+      return redirect()->back();
     }
 }
