@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -50,6 +51,18 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany('App\Models\Role');
+        return $this->belongsToMany('App\Models\Role', 'roles_users');
+    }
+
+    public function hasRole($roleParam)
+    {
+        foreach($this->roles()->get() as $role)
+        {
+            if(Str::lower($role->name) == Str::lower($roleParam))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

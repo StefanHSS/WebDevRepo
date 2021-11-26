@@ -27,14 +27,16 @@
                     <button type="submit" class="btn btn-primary">Read more</button>
                 </form>
 
-                <form action="{{route('posts.delete', $post->id)}}" method="POST" class="d-inline-block float-right">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">
-                        <span class="fa fa-trash"></span>
-                        Delete post
-                    </button>
-                </form>
+                @if (Auth::user()->hasRole('Administrator'))
+                    <form action="{{route('posts.delete', $post->id)}}" method="POST" class="d-inline-block float-right">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            <span class="fa fa-trash"></span>
+                            Delete post
+                        </button>
+                    </form>
+                @endif
             </div>
 
           </div>

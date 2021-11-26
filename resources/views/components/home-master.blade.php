@@ -36,9 +36,11 @@
               <span class="sr-only">(current)</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{route('admin.index')}}">Admin</a>
-          </li>
+          @if (Auth::user()->hasRole('Administrator'))
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('admin.index')}}">Admin</a>
+            </li>
+          @endif
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>
           </li>
