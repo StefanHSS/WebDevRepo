@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Nexmo\Laravel\Facade\Nexmo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,6 +27,11 @@ class CommentController extends Controller
             $post->comments()->save($comment);
 
             //return response()->json(['result' => $comment]);
+            Nexmo::message()->send([
+                'to' => '447926334770',
+                'from' => 'Laravel',
+                'text' => 'Someone has commented on your Post: ' . $comment->content
+            ]);
             return $comment;
         }
 
