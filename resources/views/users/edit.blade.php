@@ -16,6 +16,11 @@
                     <span class="font-weight-bold">{{$user->firstName}}</span>
                     <span class="text-black-50">{{$user->email}}</span>
                     <span> </span>
+
+                    <div class="form-group">
+                        <label for="fileUpload">Upload file</label>
+                        <input type="file" name="file" id="file" class="form-control-file">
+                    </div>
                 </div>
             </div>
             <div class="col-md-8 border-right">

@@ -1,5 +1,9 @@
 <x-home-master>
-
+    @if (Session::has('success'))
+        <div class="alert alert-success">{{Session::get('success')}}</div>
+    @else
+        <div class="alert alert-danger">{{Session::get('failure')}}</div>
+    @endif
     @section('content')
 
     <!-- Title -->
@@ -69,13 +73,22 @@
         @foreach ($comments as $comment)
                 <!-- Single Comment -->
                 <div class="media mb-4">
-                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt=""/>
+                    @if ($comment->user->avatar)
+                        <img class="d-flex mr-3 rounded-circle" src="{{$comment->user->avatar}}" alt=""/>
+                    @else
+                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt=""/>
+                    @endif
+                    {{-- <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt=""/> --}}
                     <div class="media-body">
                     <h5 class="mt-0">{{$comment->user->firstName . " " . $comment->user->lastName}}</h5>
                         {{$comment->content}}
+                        <div class="text-muted float-right">
+                            {{'Updated '. $comment->updated_at->diffForHumans()}}
+                        </div>
                         <hr>
+
                         <a href="" class="mx-3" data-toggle="modal" data-target="#exampleModal">Reply</a>
-                        <a href="">Edit</a>
+                        <a href="" data-toggle="modal" data-target="#editCommentModal-{{$comment->id}}">Edit</a>
                         <a href="" class="mx-3">Delete</a>
                     </div>
                 </div>
@@ -91,13 +104,14 @@
                             {{$reply->content}}
                             <hr>
                             <a href="" class="mx-3" data-toggle="modal" data-target="#exampleModal">Reply</a>
-                            <a href="">Edit</a>
+                            <a href="" data-toggle="modal" data-target="#editCommentModal">Edit</a>
                             <a href="" class="mx-3">Delete</a>
                         </div>
                     </div>
                     @endforeach
                 @endif
                 @include('posts.postModals.reply')
+                @include('comments.editModal')
         @endforeach
     </div>
 
@@ -163,7 +177,8 @@
                                         <h5 class="mt-0">'+ result.user.firstName + ' ' + result.user.lastName +'</h5>\
                                             ' + result.content +'\
                                             <hr>\
-                                            <a href="">Edit</a>\
+                                            <a href="" class="mx-3" data-toggle="modal" data-target="#exampleModal">Reply</a>\
+                                            <a href="" data-toggle="modal" data-target="#editCommentModal">Edit</a>\
                                             <a href="" class="mx-3">Delete</a>\
                                         </div>\
                                     </div>');

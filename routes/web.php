@@ -35,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/comment/create', 'App\Http\Controllers\CommentController@store')->name('comments.create');
     Route::post('/comment/reply', 'App\Http\Controllers\CommentController@replyStore')->name('comments.replies');
+    Route::put('/comments/{comment}/edit', 'App\Http\Controllers\CommentController@update')->name('comments.edit');
 
 });
 

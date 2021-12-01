@@ -42,13 +42,22 @@
           </div>
           <div class="card-footer text-muted">
             {{'Posted ' . $post->created_at->diffForHumans() . ' by '}}
-            <a href="">
+            <a href="" class="d-inline-block">
                 {{$post->user->firstName .' '. $post->user->lastName}}
+            </a>
+            <a class="nav-link d-inline-block float-right">
+                <span class="fa fa-comments"></span>
+                {{$post->comments()->count()}} Comments
             </a>
           </div>
       </div>
     @endforeach
-
+      <br>
+      <div class="d-flex">
+        <div class="mx-auto">
+            {{$posts->links()}}
+          </div>
+      </div>
 
     @endsection
 </x-home-master>

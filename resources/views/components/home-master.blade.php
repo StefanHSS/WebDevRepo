@@ -25,7 +25,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Start Bootstrap</a>
+      <a class="navbar-brand" href="#">Hello {{Auth::user()->firstName}}!</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -52,6 +52,17 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Contact</a>
           </li>
+
+          <!-- The default logout method in Laravel is via a POST request-->
+          <li class="nav-item">
+            <form action="{{route('logout')}}" method="post" enctype="multipart/form-data" id="logout_form" style="display: none">
+                @csrf
+            </form>
+            <a class="nav-link" href="{{route('logout')}}" onclick="event.preventDefault();document.getElementById('logout_form').submit();">
+                Logout
+            </a>
+          </li>
+
         </ul>
       </div>
     </div>

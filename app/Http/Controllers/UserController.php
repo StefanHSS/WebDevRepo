@@ -19,4 +19,9 @@ class UserController extends Controller
         $roles = Role::all();
         return view('users.edit', compact('user', 'roles'));
     }
+
+    public function update(User $user)
+    {
+
+    }
 }
