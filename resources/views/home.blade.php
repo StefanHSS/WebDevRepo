@@ -8,11 +8,11 @@
       <div class="card">
           <div class="card-body">
               @if (!$post->post_image)
+              <!-- Doesn't show placeholder currently if no image is available -->
                 <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
               @else
                 <img src="{{$post->post_image}}" height="300px" width="600px" alt="">
               @endif
-
             <hr>
 
             <h4 class="card-title">

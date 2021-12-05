@@ -32,7 +32,7 @@
             <!-- Nested Row within Card Body -->
             <div class="row">
               <div class="col-lg-5 d-none d-lg-block bg-register-image">
-                <img class="img-fluid rounded" src="https://images.unsplash.com/photo-1604186838347-9faaf0b83be8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=388&q=80" alt="">
+                <img class="img-fluid rounded" src="" alt="">
               </div>
               <div class="col-lg-7">
                 <div class="p-5">

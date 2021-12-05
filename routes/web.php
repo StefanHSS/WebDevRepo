@@ -23,6 +23,7 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/users/index', 'App\Http\Controllers\UserController@index')->name('users.index');
     Route::get('/users/{user}/edit', 'App\Http\Controllers\UserController@edit')->name('users.edit');
+    Route::put('/users/{user}/update', 'App\Http\Controllers\UserController@update')->name('users.update');
 
     Route::get('/posts/create', 'App\Http\Controllers\PostController@create')->name('posts.create');
     Route::post('/post/store', 'App\Http\Controllers\PostController@store')->name('posts.store');

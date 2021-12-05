@@ -53,4 +53,9 @@ class PostController extends Controller
 
       return redirect()->back();
     }
+
+    public function update(Post $post)
+    {
+        //some update logic here
+    }
 }

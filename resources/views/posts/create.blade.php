@@ -14,16 +14,31 @@
                         @csrf
 
                         <div class="form-group">
-                            <input type="text" class="form-control" name="title" placeholder="Enter post title" >
+                            <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" placeholder="Enter post title" >
+                            @error('title')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <div class="form-group">
-                            <textarea name="body" id="body" class="form-control" rows="3" placeholder="Enter text here..."></textarea>
+                            <textarea name="body" id="body" class="form-control @error('body') is-invalid @enderror" rows="3" placeholder="Enter text here..."></textarea>
+                            @error('body')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label for="fileUpload">Upload file</label>
-                            <input type="file" name="file" id="file" class="form-control-file">
+                            <input type="file" name="file" id="file" class="form-control-file @error('file') is-invalid @enderror">
+                            @error('file')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <div class="form-group">

@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Role', 'roles_users');
     }
 
+    public function avatar()
+    {
+        return $this->hasOne('App\Models\Image');
+    }
+
     public function hasRole($roleParam)
     {
         foreach($this->roles()->get() as $role)
