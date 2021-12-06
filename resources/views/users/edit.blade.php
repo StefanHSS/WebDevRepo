@@ -8,6 +8,16 @@
         <div class="alert alert-danger">{{Session::get('failure')}}</div>
     @endif
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{route('users.update', $user->id)}}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -75,6 +85,7 @@
                                             <td>{{$role->name}}</td>
                                             <td>{{$role->updated_at}}</td>
                                             <td>
+                                                <form action=""></form>
                                                 <form action="{{route('roles.attach', $role)}}" method="post" enctype="multipart/form-data">
                                                     @csrf
                                                     <input type="hidden" name="userAttach" value="{{$user->id}}">

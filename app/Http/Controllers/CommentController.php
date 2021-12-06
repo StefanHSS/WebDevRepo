@@ -44,16 +44,17 @@ class CommentController extends Controller
                 'content' => 'Hello '. $user->firstName.'!'."\r\n".'Your post has received a new Notification'."\r\n".
                 'You can find it here: '.$url
             ];
-            Mail::send('emails.notification', $data, function($message){
-                $post = Post::where('id', request('post'))->firstOrFail();
-                $user = $post->user->email;
+            if(Auth::user() != $user)
+            {
+                Mail::send('emails.notification', $data, function($message){
+                    $post = Post::where('id', request('post'))->firstOrFail();
+                    $user = $post->user->email;
 
-                $message->to($user);
-                $message->subject('Someone commented on your post');
+                    $message->to($user);
+                    $message->subject('Someone commented on your post');
 
-            });
-
-
+                });
+            }
             return $comment;
         }
 
@@ -84,7 +85,7 @@ class CommentController extends Controller
 
     public function update(Comment $comment)
     {
-        //dd(request()->all());
+        $this->authorize('update', $comment);
         $validator = Validator::make(request()->all(), [
             'content' => 'required|max:250',
         ]);

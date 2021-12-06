@@ -74,7 +74,7 @@
                 <!-- Single Comment -->
                 <div class="media mb-4">
                     @if ($comment->user->avatar)
-                        <img class="d-flex mr-3 rounded-circle" src="{{$comment->user->avatar}}" alt=""/>
+                        <img class="d-flex mr-3 rounded-circle" src="{{$comment->user->avatar->avatar}}" width="50" height="50" alt=""/>
                     @else
                         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt=""/>
                     @endif
@@ -88,8 +88,10 @@
                         <hr>
 
                         <a href="" class="mx-3" data-toggle="modal" data-target="#exampleModal">Reply</a>
-                        <a href="" data-toggle="modal" data-target="#editCommentModal-{{$comment->id}}">Edit</a>
-                        <a href="" class="mx-3">Delete</a>
+                        @if (Auth::user()->can('update', $comment))
+                            <a href="" data-toggle="modal" data-target="#editCommentModal-{{$comment->id}}">Edit</a>
+                            <a href="" class="mx-3">Delete</a>
+                        @endif
                     </div>
                 </div>
 

@@ -43,7 +43,7 @@
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="text" class="form-control form-control-user" name= "firstName" id="firstName" placeholder="First Name">
+                        <input type="text" class="form-control form-control-user @error('firstName') is-invalid @enderror" name= "firstName" id="firstName" placeholder="First Name">
 
                         @error('firstName')
                             <span class="invalid-feedback" role="alert">
@@ -53,7 +53,7 @@
                       </div>
 
                       <div class="col-sm-6">
-                        <input type="text" class="form-control form-control-user" name="lastName" id="lastName" placeholder="Last Name">
+                        <input type="text" class="form-control form-control-user @error('lastName') is-invalid @enderror" name="lastName" id="lastName" placeholder="Last Name">
 
                         @error('lastName')
                             <span class="invalid-feedback" role="alert">
@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" name="email" id="email" placeholder="Email Address">
+                      <input type="email" class="form-control form-control-user @error('email') is-invalid @enderror" name="email" id="email" placeholder="Email Address">
 
                       @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -75,7 +75,7 @@
 
                     <div class="form-group row">
                       <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password">
+                        <input type="password" class="form-control form-control-user @error('password') is-invalid @enderror" name="password" id="password" placeholder="Password">
 
                         @error('password')
                             <span class="invalid-feedback" role="alert">
@@ -84,9 +84,9 @@
                         @enderror
                       </div>
                       <div class="col-sm-6">
-                        <input type="password" class="form-control form-control-user" name="password_confirmation" id="password-confirm" placeholder="Repeat Password">
+                        <input type="password" class="form-control form-control-user @error('password_confirmation') is-invalid @enderror" name="password_confirmation" id="password-confirm" placeholder="Repeat Password">
 
-                        @error('password-confirm')
+                        @error('password_confirmation')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
