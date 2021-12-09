@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Notifications\EventsNotification;
+use App\Services\PostNotifier;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
 
@@ -46,14 +47,16 @@ class CommentController extends Controller
             ];
             if(Auth::user() != $user)
             {
-                Mail::send('emails.notification', $data, function($message){
-                    $post = Post::where('id', request('post'))->firstOrFail();
-                    $user = $post->user->email;
+                $notifier = new PostNotifier($post, $user);
+                $notifier->notify();
+                // Mail::send('emails.notification', $data, function($message){
+                //     $post = Post::where('id', request('post'))->firstOrFail();
+                //     $user = $post->user->email;
 
-                    $message->to($user);
-                    $message->subject('Someone commented on your post');
+                //     $message->to($user);
+                //     $message->subject('Someone commented on your post');
 
-                });
+                // });
             }
             return $comment;
         }
