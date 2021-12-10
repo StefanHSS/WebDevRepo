@@ -54,8 +54,28 @@ class PostController extends Controller
       return redirect()->back();
     }
 
+    public function edit(Post $post)
+    {
+        return view('posts.edit', compact('post'));
+    }
+
     public function update(Post $post)
     {
-        //some update logic here
+        $this->authorize('update', $post);
+        $inputs = request()->validate([
+            'title' => 'required | max:50',
+            'body' => 'required',
+            'post_image' => 'file'
+        ]);
+
+        if(request('file'))
+        {
+            $inputs['post_image'] = request('file')->store('images');
+        }
+
+        $post->update($inputs);
+        Session::flash('message', 'Post updated successfully!');
+
+        return redirect()->route('home');
     }
 }

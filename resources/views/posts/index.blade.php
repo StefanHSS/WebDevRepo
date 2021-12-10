@@ -13,13 +13,21 @@
     <p class="lead">
       by
       <a href="#">{{$post->user->firstName . ' ' . $post->user->lastName}}</a>
+      @if (Auth::user()->can('update',$post))
+        <a href="{{route('posts.edit', $post)}}" role="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#postEditModal">
+            Edit post
+        </a>
+      @endif
     </p>
+    @include('posts.edit')
 
     <hr>
 
     <!-- Date/Time -->
     <p>
         Posted {{$post->created_at->diffForHumans()}}
+        <br>
+        Updated {{$post->updated_at->diffForHumans()}}
     </p>
 
     <hr>

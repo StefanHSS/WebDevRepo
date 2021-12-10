@@ -96,7 +96,7 @@ class CommentController extends Controller
         if(!$validator->fails())
         {
             $comment->content = request('content');
-            $comment->user()->associate(request()->user());
+            $comment->user()->associate($comment->user);
 
             $post = Post::where('id', request('post_id'))->firstOrFail();
             $post->comments()->save($comment);

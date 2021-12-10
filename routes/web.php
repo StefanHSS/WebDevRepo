@@ -27,7 +27,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/posts/create', 'App\Http\Controllers\PostController@create')->name('posts.create');
     Route::post('/post/store', 'App\Http\Controllers\PostController@store')->name('posts.store');
+    Route::get('/post/{post}/edit', 'App\Http\Controllers\PostController@edit')->name('posts.edit');
     Route::get('/post/{post}/show', 'App\Http\Controllers\PostController@show')->name('posts.show');
+    Route::put('/post/{post}/update', 'App\Http\Controllers\PostController@update')->name('posts.update');
     Route::get('/post/{post}/comments', 'App\Http\Controllers\PostController@fetchComments')->name('posts.comments');
 
     Route::get('/admin/index', 'App\Http\Controllers\RoleController@adminIndex')->name('admin.index');
