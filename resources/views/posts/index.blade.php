@@ -6,6 +6,9 @@
     @endif
     @section('content')
 
+    <div id="success_edit">
+
+    </div>
     <!-- Title -->
     <h1 class="mt-4">{{$post->title}}</h1>
 

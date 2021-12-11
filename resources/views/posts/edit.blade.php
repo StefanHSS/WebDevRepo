@@ -9,37 +9,31 @@
         </div>
         <div class="modal-body">
 
-          <form method="POST" action="{{route('posts.update', $post)}}" enctype="multipart/form-data">
+          <form method="POST" action="{{route('posts.update', $post)}}" enctype="multipart/form-data" id="updateForm">
               @csrf
               @method('PUT')
               <div class="form-group">
-                <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" placeholder="Enter post title" value="{{$post->title}}">
-                @error('title')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" placeholder="Enter post title" value="{{$post->title}}">
+                <span class="text-danger">
+                    <strong id="title_error"></strong>
+                </span>
             </div>
 
             <div class="form-group">
                 <textarea name="body" id="body" class="form-control @error('body') is-invalid @enderror" rows="3" placeholder="Enter text here...">{{$post->body}}</textarea>
-                @error('body')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <span class="text-danger">
+                    <strong id="body_error"></strong>
+                </span>
             </div>
 
             <div class="form-group">
                 <label for="fileUpload">Upload file</label>
-                <input type="file" name="file" id="file" class="form-control-file @error('file') is-invalid @enderror">
-                @error('file')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <input type="file" name="file" id="file" class="form-control-file @error('file') is-invalid @enderror" value="{{$post->post_image}}">
+                <span class="text-danger">
+                    <strong id="file_error"></strong>
+                </span>
             </div>
-            <button type="submit" class="btn btn-primary float-right">Save</button>
+            <button type="submit" class="btn btn-primary float-right" id="updateButton">Save</button>
           </form>
 
         </div>
@@ -54,20 +48,46 @@
   <script>
       $('#postEditModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
-            // var recipient = button.data('whatever') // Extract info from data-* attributes
-            // // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            // var modal = $(this)
-            // modal.find('.modal-title').text('New message to ' + recipient)
-            // modal.find('.modal-body input').val(recipient)
         })
   </script>
-  <!-- Check to see how to get validation in modals working-->
-  @if (count($errors) > 0)
-  <script type="text/javascript">
-      $(document).ready(function() {
-          $('#postEditModal').modal('show');
-      });
+  <script>
+    $(document).ready(function () {
+            $('#updateButton').click(function(e) {
+            e.preventDefault();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            var $postData = {};
+            $postData.title = $("#title").val();
+            $postData.body = $("#body").val();
+            $postData.post_image = $("#file").val();
+
+            $.ajax({
+                url: $('#updateForm').attr('action'),
+                type: 'PUT',
+                enctype: $('#updateForm').attr('enctype'),
+                data: $postData,
+
+                success: function(data) {
+                    console.log(data);
+                    if(data.code == 0)
+                    {
+                        $.each(data.error, function(key, value){
+                            $('#'+key+'_error').append(value);
+                        });
+                    }
+                    else
+                    {
+                        $('#success_update').addClass('alert alert-success');
+                        $('#success_update').text(data.msg);
+                    }
+                }
+            });
+        });
+    });
   </script>
-@endif
 

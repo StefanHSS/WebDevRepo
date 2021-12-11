@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -62,20 +63,44 @@ class PostController extends Controller
     public function update(Post $post)
     {
         $this->authorize('update', $post);
-        $inputs = request()->validate([
+        $inputs = Validator::make(request()->all(),[
             'title' => 'required | max:50',
             'body' => 'required',
-            'post_image' => 'file'
+            'post_image' => '',
         ]);
+
 
         if(request('file'))
         {
-            $inputs['post_image'] = request('file')->store('images');
+           $post->post_image = request('file')->store('images');
         }
 
-        $post->update($inputs);
-        Session::flash('message', 'Post updated successfully!');
 
-        return redirect()->route('home');
+        if(!$inputs->fails())
+        {
+
+            $post->title = request('title');
+            $post->body = request('body');
+            if(request('file'))
+            {
+                $post->post_image = request('file')->store('images');
+            }
+            $post->save();
+
+            return response()->json([
+                'code' => 200,
+                'msg' => "Post updated successfully"
+            ]);
+        }
+        else
+        {
+            return response()->json([
+             'code'=> 0,
+             'error' => $inputs->errors()]);
+        }
+        // $post->update($inputs);
+        // Session::flash('message', 'Post updated successfully!');
+
+        // return redirect()->route('home');
     }
 }
