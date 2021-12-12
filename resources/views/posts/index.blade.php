@@ -70,6 +70,9 @@
             <div class="form-group">
                 <input type="hidden" name="post_id" id="post_id" value="{{$post->id}}">
                 <textarea class="form-control" rows="3" name="content" id="content"></textarea>
+                <span class="text-danger">
+                    <strong id="content_error"></strong>
+                </span>
             </div>
 
             <button type="submit" class="btn btn-primary" id="ajax_button">Submit</button>
@@ -183,7 +186,13 @@
                 data: $postData,
                 success: function(result) {
                     console.log(result);
-                                $(".commentsSection").prepend(
+                    if(result.error == 0)
+                    {
+                        $('#content_error').append(result.msg.content[0]);
+                    }
+                    else
+                    {
+                        $(".commentsSection").prepend(
                                     '<div class="media mb-4">\
                                         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt=""/>\
                                         <div class="media-body">\
@@ -196,6 +205,9 @@
                                         </div>\
                                     </div>');
                                 $("#content").val('');
+                                $("#content_error").html('');
+                                $("#content_error").removeClass("error");
+                    }
                 }
             });
         });

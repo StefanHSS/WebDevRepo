@@ -61,7 +61,7 @@ class CommentController extends Controller
             return $comment;
         }
 
-        return response()->json(['result' => $validator->errors()]);
+        return response()->json(['error' => 0, 'msg' => $validator->errors()]);
     }
 
     public function replyStore()

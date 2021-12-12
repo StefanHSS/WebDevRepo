@@ -90,7 +90,7 @@
                         $('#postEditModal').hide();
                         $('#success_edit').addClass('alert alert-success');
                         $('#success_edit').text(data.msg);
-                       // window.location = "http://127.0.0.1:8000/home";
+                        window.location = "http://127.0.0.1:8000/home";
                     }
                 }
             });
