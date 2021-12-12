@@ -11,7 +11,7 @@
 
           <form method="POST" action="{{route('posts.update', $post)}}" enctype="multipart/form-data" id="updateForm">
               @csrf
-              @method('PUT')
+
               <div class="form-group">
                 <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" placeholder="Enter post title" value="{{$post->title}}">
                 <span class="text-danger">
@@ -28,7 +28,7 @@
 
             <div class="form-group">
                 <label for="fileUpload">Upload file</label>
-                <input type="file" name="file" id="file" class="form-control-file @error('file') is-invalid @enderror" value="{{$post->post_image}}">
+                <input type="file" name="file" id="file" class="form-control-file @error('file') is-invalid @enderror">
                 <span class="text-danger">
                     <strong id="file_error"></strong>
                 </span>
@@ -61,16 +61,20 @@
                 }
             });
 
-            var $postData = {};
-            $postData.title = $("#title").val();
-            $postData.body = $("#body").val();
-            $postData.post_image = $("#file").val();
+            // var $postData = {};
+            // $postData.title = $("#title").val();
+            // $postData.body = $("#body").val();
+            // $postData.post_image = $("#file").val();
+            var postData = new FormData($('#updateForm')[0]);
+
 
             $.ajax({
                 url: $('#updateForm').attr('action'),
-                type: 'PUT',
+                type: 'POST',
                 enctype: $('#updateForm').attr('enctype'),
-                data: $postData,
+                data:postData,
+                processData: false,
+                contentType: false,
 
                 success: function(data) {
                     console.log(data);
@@ -82,8 +86,11 @@
                     }
                     else
                     {
-                        $('#success_update').addClass('alert alert-success');
-                        $('#success_update').text(data.msg);
+                        $(".modal-backdrop").remove();
+                        $('#postEditModal').hide();
+                        $('#success_edit').addClass('alert alert-success');
+                        $('#success_edit').text(data.msg);
+                       // window.location = "http://127.0.0.1:8000/home";
                     }
                 }
             });

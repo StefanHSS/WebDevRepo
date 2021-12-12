@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -66,7 +67,7 @@ class PostController extends Controller
         $inputs = Validator::make(request()->all(),[
             'title' => 'required | max:50',
             'body' => 'required',
-            'post_image' => '',
+            'post_image' => 'file',
         ]);
 
 
@@ -76,15 +77,12 @@ class PostController extends Controller
         }
 
 
+        //Get image updating to work
         if(!$inputs->fails())
         {
-
             $post->title = request('title');
             $post->body = request('body');
-            if(request('file'))
-            {
-                $post->post_image = request('file')->store('images');
-            }
+
             $post->save();
 
             return response()->json([
